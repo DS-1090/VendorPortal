@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Department of Fisheries</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function check_Nationality() {
+        var indianRadio = document.getElementById(
+          "Nationality_checkbox_Indian"
+        );
+        var messageLabel = document.getElementById("message_Nationality");
+        var submitButton = document.getElementById("Submit");
+
+        if (indianRadio.checked) {
+          document.getElementById(
+            "Nationality_checkbox_Indian"
+          ).style.backgroundColor = "green";
+          messageLabel.textContent = "";
+          submitButton.disabled = false;
+        } else {
+          document.getElementById(
+            "Nationality_checkbox_Indian"
+          ).style.backgroundColor = "red";
+          messageLabel.textContent = "Not Eligible";
+          messageLabel.style.color = "red";
+          submitButton.disabled = true;
+        }
+      }
+      var check = function () {
+        if (
+          document.getElementById("Password_Register").value ==
+          document.getElementById("Reenter_Password_Register").value
+        ) {
+          document.getElementById("message").innerHTML = "";
+          // document.getElementById('message').innerHTML = 'matching';
+        } else {
+          document.getElementById("Reenter_Password_Register").backgroundColor =
+            "red";
+          document.getElementById("message").innerHTML =
+            "Please Re-enter the password";
+          document.getElementById("message").style.color = "red";
+        }
+      };
+
+      function submit_registration() {
+        event.preventDefault();
+
+        var email = document.getElementById("Email_Register").value;
+        var password = document.getElementById("Password_Register").value;
+
+        fetch("Store_Register.php", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body:
+            "text=" +
+            encodeURIComponent(password) +
+            "&mail=" +
+            encodeURIComponent(email),
+        })
+          .then((response) => response.text())
+          .then((data) => {
+            console.log(data);
+            document.getElementById("reg-form").reset();
+
+            alert("Registration successful!");
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
+  </head>
+
+  <body>
+    <!--Top Header-->
+    <div class="container-fluid py-3" style="background-color: #0a266c">
+      <div class="row align-items-center">
+        <div class="col-md-6 d-flex justify-content-start">
+          <ul
+            class="list-group list-group-horizontal mb-0"
+            style="color: white"
+          >
+            <li class="gov-india list-inline-item me-3">
+              <span class="responsive_go_hindi" lang="hi">
+                <a
+                  target="_blank"
+                  href="https://india.gov.in/hi"
+                  style="text-decoration: none; color: white"
+                  title="भारत सरकार, बाहरी वेबसाइट जो एक नई विंडो में खुलती है"
+                  >भारत सरकार</a
+                >
+              </span>
+              <br />
+              <span class="li_eng responsive_go_eng">
+                <a
+                  target="_blank"
+                  href="https://india.gov.in/"
+                  style="text-decoration: none; color: white"
+                  title="Goverment Of India,External Link that opens in a new window"
+                  >GOVERNMENT OF INDIA</a
+                >
+              </span>
+            </li>
+
+            <li class="ministry list-inline-item">
+              <span class="responsive_go_hindi" lang="hi">
+                <a target="_blank" title="मत्स्यपालन, पशुपालन और डेयरी मंत्रालय"
+                  >मत्स्यपालन, पशुपालन और डेयरी मंत्रालय
+                </a>
+              </span>
+              <br />
+              <span class="responsive_go_hindi" lang="hi">
+                <a
+                  target="_blank"
+                  title="Ministry of Fisheries, Animal Husbandry and Dairying"
+                  >Ministry of Fisheries, Animal Husbandry and Dairying
+                </a>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-6 d-flex justify-content-end">
+          <ul id="header-nav" class="list-inline mb-0">
+            <li class="list-inline-item">
+              <a
+                target="_blank"
+                title="External Link that opens in a new window"
+                href="https://www.facebook.com/FisheriesGoI"
+              >
+                <img
+                  class="img-fluid"
+                  alt="Facebook Page"
+                  width="30"
+                  height="30"
+                  src="https://dof.gov.in/modules/cmf/cmf_design/images/facebook.png"
+                />
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a
+                target="_blank"
+                title="External Link that opens in a new window"
+                href="https://twitter.com/FisheriesGoI"
+              >
+                <img
+                  class="img-fluid"
+                  alt="Twitter Page"
+                  width="30"
+                  height="30"
+                  src="https://dof.gov.in/modules/cmf/cmf_design/images/twitter-new.png"
+                />
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a
+                target="_blank"
+                title="External Link that opens in a new window"
+                href="https://www.youtube.com/channel/UC7igwP7rMXS8ZbTLLk57IVA"
+              >
+                <img
+                  class="img-fluid"
+                  alt="youtube Page"
+                  width="30"
+                  height="30"
+                  src="https://dof.gov.in/modules/cmf/cmf_design/images/youtube.png"
+                />
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a
+                target="_blank"
+                title="External Link that opens in a new window"
+                href="https://www.instagram.com/dept_of_fisheries_goi/"
+              >
+                <img
+                  class="img-fluid"
+                  alt="instagram Page"
+                  width="30"
+                  height="30"
+                  src="https://dof.gov.in/modules/cmf/cmf_design/images/instagram.png"
+                />
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!--Header-->
+
+    <header class="container-fluid py-3">
+      <div class="row align-items-center">
+        <div class="col-md-1 text-center text-md-start">
+          <img
+            class="national_emblem"
+            src="https://dof.gov.in/modules/cmf/cmf_design/images/emblem-dark.png"
+            alt="National Emblem"
+            class="img-fluid"
+          />
+        </div>
+        <div class="col-md-2 text-center text-md-start">
+          <h4 class="mt-2 mx-1">
+            भारत सरकार <br />
+            GOVERNMENT OF INDIA
+          </h4>
+        </div>
+        <div class="col-md-2 text-center text-md-start">
+          <h4 class="dept-title mx-1">
+            मत्स्यपालन विभाग<br />
+            Department of Fisheries
+          </h4>
+        </div>
+
+        
+      </div>
+    </header>
+
+    <!--Seperator-->
+
+    <div
+      class="blue-banner d-flex justify-content-left align-items-center p-4"
+      style="color: white; background-color: #0a266c; height: 35px; width: 100%"
+    >
+      <a href="user_home.html">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          fill="white"
+          class="bi bi-house-door-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5"
+          />
+        </svg>
+      </a>
+    </div>
+
+    <!--Registration Form-->
+    <h3 class="text-center pt-3">Register</h3>
+
+    <form
+      class="mx-auto p-4"
+      id="reg-form"
+      style="max-width: 400px"
+      onsubmit="submit_registration(event)"
+      method="post"
+    >
+      <div class="form-group">
+        <label for="Email_Register">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="Email_Register"
+          placeholder="Enter email"
+          autocomplete="email"
+        />
+      </div>
+      <br />
+      <div class="form-group">
+        <label for="Password_Register">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="Password_Register"
+          placeholder="Password "
+          autocomplete="new-password"
+        />
+        <!-- required pattern="^(?=.*\d)(?=[a-zA-Z]*$).{8,}$"-->
+      </div>
+
+      <br />
+      <div class="form-group">
+        <label for="Reenter_Password_Register">Re-Enter Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="Reenter_Password_Register"
+          placeholder="Re-enter Password"
+          autocomplete="new-password"
+          onkeyup="check()"
+        />
+        <label id="message"></label>
+      </div>
+
+      <div class="form-group">
+        <label for="Aadharno">Aadhar number</label>
+        <input
+          type="number"
+          id="Aadhar_no"
+          placeholder="Enter Aadhar number"
+          class="form-control"
+        />
+      </div>
+      <br />
+      <div class="form-group">
+        <label for="OTP">OTP</label>
+        <input
+          type="number"
+          id="OTP"
+          placeholder="Enter OTP"
+          class="form-control"
+          autocomplete="off"
+        />
+      </div>
+      <br />
+      <div class="form-group">
+        <label for="Nationality_checkbox">Nationality</label><br />
+        <input
+          type="radio"
+          id="Nationality_checkbox_Indian"
+          name="nationality"
+          value="Indian"
+          onchange="check_Nationality()"
+        />
+        <label for="Nationality_checkbox_Indian">Indian</label><br />
+        <input
+          type="radio"
+          id="Nationality_checkbox_NRI"
+          name="nationality"
+          value="NRI"
+          onchange="check_Nationality()"
+        />
+        <label for="Nationality_checkbox_NRI">NRI</label><br />
+
+        <label id="message_Nationality"></label><br />
+      </div>
+      <button
+        type="submit"
+        id="Submit"
+        class="btn btn-primary"
+        style="background-color: #0a266c; border-color: azure; font-size: large"
+      >
+        Submit
+      </button>
+    </form>
+  </body>
+</html>
