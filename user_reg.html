@@ -55,34 +55,37 @@
         }
       };
 
-      function submit_registration() {
-        event.preventDefault();
+       function submit_registration(event) {
+    event.preventDefault();
 
-        var email = document.getElementById("Email_Register").value;
-        var password = document.getElementById("Password_Register").value;
+    var email = document.getElementById("Email_Register").value;
+    var password = document.getElementById("Password_Register").value;
+    var aadhar = document.getElementById("Aadhar_no").value;
 
-        fetch("Store_Register.php", {
-          method: "POST",
-          headers: {
+    var data = new URLSearchParams();
+    data.append("Email_Register", email);
+    data.append("Password_Register", password);
+    data.append("Aadhar_no", aadhar);
+
+    fetch("process_registration.php", {
+        method: "POST",
+        headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body:
-            "text=" +
-            encodeURIComponent(password) +
-            "&mail=" +
-            encodeURIComponent(email),
-        })
-          .then((response) => response.text())
-          .then((data) => {
-            console.log(data);
-            document.getElementById("reg-form").reset();
+        },
+        body: data.toString(), 
+    })
+        .then((response) => response.text())
+        .then((data) => {
+            console.log(data); 
+            document.getElementById("reg-form").reset(); 
 
-            alert("Registration successful!");
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      }
+            alert("Registration successful!"); 
+        })
+        .catch((error) => {
+            console.error("Error:", error); 
+        });
+}
+
     </script>
   </head>
 
