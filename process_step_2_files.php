@@ -28,20 +28,28 @@ try {
         $bank_consent_document = null;
         $signature = null;
 
-         $uploadDir = 'uploads/step-2/';
-        
+        $uploadDir = 'uploads/step-2/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
 
+        $fileInputs = [
+            'ownLandDocuments' => 'own_land_documents',
+            'leaseLandDocuments' => 'lease_land_documents',
+            'bankConsentUpload' => 'bank_consent_document',
+            'signature' => 'signature',
+        ];
+
         foreach ($fileInputs as $fileInputId => $dbColumn) {
             if (isset($_FILES[$fileInputId]) && $_FILES[$fileInputId]['error'] === UPLOAD_ERR_OK) {
                 $fileName = basename($_FILES[$fileInputId]['name']);
-                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . date("m-Y")  . pathinfo($fileName, PATHINFO_EXTENSION);
+                $text=$fileInputId.'-'. date("m-Y"); 
+
+                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . $text. '.' . pathinfo($fileName, PATHINFO_EXTENSION);
                 $fileContent = file_get_contents($_FILES[$fileInputId]['tmp_name']);
 
                 if (move_uploaded_file($_FILES[$fileInputId]['tmp_name'], $filePath)) {
-                    $fileData[$dbColumn] = $fileContent;
+                    $$dbColumn = $fileContent;
                 } else {
                     echo json_encode(["status" => "error", "message" => "Error uploading file: " . $fileName]);
                     exit();

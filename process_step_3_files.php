@@ -35,7 +35,9 @@ try {
         foreach ($fileInputs as $fileInputId => $dbColumn) {
             if (isset($_FILES[$fileInputId]) && $_FILES[$fileInputId]['error'] === UPLOAD_ERR_OK) {
                 $fileName = basename($_FILES[$fileInputId]['name']);
-                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '_' . date("m-Y") . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+                                $text=$fileInputId.'-'. date("m-Y"); 
+
+                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '_' .$text . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
                 $fileContent = file_get_contents($_FILES[$fileInputId]['tmp_name']);
 
                 if (move_uploaded_file($_FILES[$fileInputId]['tmp_name'], $filePath)) {

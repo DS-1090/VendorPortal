@@ -62,6 +62,7 @@ $text = date("m-Y", $t);
 foreach ($files as $key => &$value) {
     if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
         $fileName = basename($_FILES[$key]['name']);
+        $text=$key.'-'.$text; 
         $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '_' . $text . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
         $fileContent = file_get_contents($_FILES[$key]['tmp_name']);
 
