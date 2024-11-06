@@ -127,91 +127,7 @@
   </div>
 
  <script>
-        //  localStorage.clear()
-        /*
-        document.addEventListener('DOMContentLoaded', function () {
-            const applicationsTableBody = document.getElementById('applications-table-body');
-            let applications = JSON.parse(localStorage.getItem('applications')) || [];
-            let acceptcount = parseInt(localStorage.getItem('acceptcount')) || 0;
-            let rejectcount = parseInt(localStorage.getItem('rejectcount')) || 0;
-            let totalcount = parseInt(localStorage.getItem('totalcount')) || 0;
-
-            function populateTableRows(applications) {
-                applications.forEach(applicationNo => {
-                    const newRow = document.createElement('tr');
-                    newRow.innerHTML = `
-                        <td>${applicationNo}</td>
-                        <td><button class="btn btn-primary view-application" data-application-no="${applicationNo}" style="background-color: #0a266c; border-color: azure;">View Application</button></td>
-                        <td><button class="btn btn-primary show-files-button" data-application-no="${applicationNo}" style="background-color: #0a266c; border-color: azure;">Applicant Uploaded Files</button></td>
-
-                        <td><button class="btn btn-success accept-application" data-application-no="${applicationNo}">Approve</button></td>
-                        <td><button class="btn btn-danger decline-application" data-application-no="${applicationNo}">Reject</button></td>
-                        <td><input type="text" class="form-control query-input" data-application-no="${applicationNo}" placeholder="Enter query"></td>
-                    `;
-                    applicationsTableBody.appendChild(newRow);
-                });
-
-                totalcount=applications.length;
-                localStorage.setItem('totalcount', totalcount);
-
-            }
-
-            populateTableRows(applications);
-
-            applicationsTableBody.addEventListener('keydown', function (event) {
-                const queryInput = event.target.closest('.query-input');
-                if (!queryInput || event.key !== 'Enter') return;
-
-                const queryMessage = queryInput.value.trim();
-                if (queryMessage) {
-                    const applicationNo = queryInput.getAttribute('data-application-no');
-                    let queries = JSON.parse(localStorage.getItem('queries')) || {};
-                    if (!queries[applicationNo]) {
-                        queries[applicationNo] = [];
-                    }
-                    queries[applicationNo].push(queryMessage);
-                    localStorage.setItem('queries', JSON.stringify(queries));
-                    queryInput.value = '';
-                    alert('Query submitted successfully!');
-                }
-            });
-
-            applicationsTableBody.addEventListener('click', function (event) {
-                const target = event.target;
-                if (target.classList.contains('view-application')) {
-                    const applicationNo = target.getAttribute('data-application-no');
-                    //const pdfUrl = localStorage.getItem(`Application_${applicationNo}`);applicationFormPDF
-                    const pdfUrl = localStorage.getItem(`applicationFormPDF-${applicationNo}`);
-                    if (pdfUrl) {
-                        window.open(pdfUrl, '_blank');
-                    } else {
-                        alert('PDF not found in localStorage');
-                    }
-                } 
-                else if (target.classList.contains('accept-application')) {
-                    const applicationNo = target.getAttribute('data-application-no');
-                    alert(`Application ${applicationNo} accepted`);
-                    const row = target.closest('tr');
-                    row.querySelector('.decline-application').disabled = true;
-                    acceptcount++;
-                    localStorage.setItem('acceptcount', acceptcount);
-                } 
-                else if (target.classList.contains('decline-application')) {
-                    const applicationNo = target.getAttribute('data-application-no');
-                    alert(`Application ${applicationNo} declined`);
-                    const rowToRemove = target.closest('tr');
-                    applications = applications.filter(app => app !== applicationNo);
-                    localStorage.setItem('applications', JSON.stringify(applications));
-                    rejectcount++;
-                    localStorage.setItem('rejectcount', rejectcount);
-                    rowToRemove.remove();
-                } 
-                else if (target.classList.contains('show-files-button')) {
-                    const applicationNo = target.getAttribute('data-application-no');
-                }
-            });
-        });*/
-
+        
 
 
 
@@ -237,7 +153,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const acceptButton = newRow.querySelector('.accept-application');
             const rejectButton = newRow.querySelector('.decline-application');
 
-            // Check saved status and update button state
             if (applicationStatus[applicationNo] === 'accepted') {
                 
                 acceptButton.disabled = true;
@@ -253,7 +168,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     populateTableRows(applications);
+applicationsTableBody.addEventListener('keydown', function (event) {
+                const queryInput = event.target.closest('.query-input');
+                if (!queryInput || event.key !== 'Enter') return;
 
+                const queryMessage = queryInput.value.trim();
+                if (queryMessage) {
+                    const applicationNo = queryInput.getAttribute('data-application-no');
+                    let queries = JSON.parse(localStorage.getItem('queries')) || {};
+                    if (!queries[applicationNo]) {
+                        queries[applicationNo] = [];
+                    }
+                    queries[applicationNo].push(queryMessage);
+                    localStorage.setItem('queries', JSON.stringify(queries));
+                    queryInput.value = '';
+                    alert('Query submitted successfully!');
+                }
+            });
     applicationsTableBody.addEventListener('click', function (event) {
         const target = event.target;
          
@@ -276,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
             row.querySelector('.decline-application').disabled = true;
             target.disabled = true;
 
-            // Update status in localStorage
             applicationStatus[applicationNo] = 'accepted';
             localStorage.setItem('applicationStatus', JSON.stringify(applicationStatus));
         } 
@@ -289,10 +219,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const row = target.closest('tr');
             row.querySelector('.accept-application').disabled = true;
             target.disabled = true;
-            row.style.opacity = '0.6'; // Optional: visually indicate rejection
+            row.style.opacity = '0.6'; 
             //row.remove()
 
-            // Update status in localStorage
             applicationStatus[applicationNo] = 'rejected';
 
             localStorage.setItem('applicationStatus', JSON.stringify(applicationStatus));
@@ -300,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function () {
         } 
         else if (target.classList.contains('show-files-button')) {
             const applicationNo = target.getAttribute('data-application-no');
-            // Implement file viewing logic here if needed
         }
       
 

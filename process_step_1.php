@@ -8,7 +8,6 @@ $user = "avnadmin";
 $password = "AVNS_nbjEuChQbhT3jY1CH8A";
 
 try {
-    // Create a new PDO instance
     $dsn = "pgsql:host=$host;port=$port;dbname=$dbname;sslmode=require";
     $db = new PDO($dsn, $user, $password);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -16,7 +15,6 @@ try {
     echo "Connected successfully to the database '$dbname'!<br>";
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Collect input data and sanitize
         // $applicant_id = filter_input(INPUT_POST, 'applicant_id', FILTER_SANITIZE_NUMBER_INT);
 
         $name_of_applicant = filter_input(INPUT_POST, 'fname', FILTER_SANITIZE_STRING);
@@ -120,15 +118,12 @@ $stmt = $db->prepare("
         $stmt->execute();
 
 
-        // Return success message
         echo json_encode(['success' => true, 'message' => 'Data submitted successfully.']);
     } 
     else {
-        // Handle invalid request method
         echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
     }
 } catch (PDOException $e) {
-    // Handle connection errors
     echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
 }
 ?>

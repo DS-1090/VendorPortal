@@ -1484,14 +1484,13 @@
                 pdfUrl
               );
 
-              // Show download button
               const downloadButton = document.getElementById("downloadPdf");
               downloadButton.style.display = "block";
 
               downloadButton.onclick = function () {
                 const pdfLink = document.createElement("a");
                 pdfLink.href = pdfUrl;
-                pdfLink.download = fileName; // Use the file name from the API response
+                pdfLink.download = fileName; 
                 pdfLink.click();
               };
             } else {
@@ -1507,28 +1506,26 @@
         const allowedTypes = [
           "application/pdf",
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ]; // Add other allowed types if needed
+        ]; 
         const file = this.files[0];
 
         if (file) {
-          const size = (file.size / 1024 / 1024).toFixed(2); // Size in MB
+          const size = (file.size / 1024 / 1024).toFixed(2); 
           const type = file.type;
           
-          // Check file size
           if (size > 10 || size == 0) {
             alert("File must be between the size of 0 - 10 MB");
-            this.value = ""; // Clear the input
-            return; // Exit the function
+            this.value = ""; 
+            return; 
           }
 
-          // Check file type
           if (!allowedTypes.includes(type)) {
             alert("Invalid file type. Please upload a PDF or DOCX file.");
-            this.value = ""; // Clear the input
-            return; // Exit the function
+            this.value = ""; 
+            return; 
           }
 
-          alert("This file size is: " + size + " MB and type is: " + type);
+          //alert("This file size is: " + size + " MB and type is: " + type);
         }
       });
 
@@ -1577,15 +1574,14 @@
               console.log(response);
             },
             error: function () {
-              alert("Error processing step.");
+              alert("Error processing file step.");
             },
           });
         } else if (currentStep === 2) {
           formData = collectStep2Data();
           console.log("Step 2 Data:", formData);
           currentStep = 3;
-console.log("Step 2 Data:", Array.from(formData.entries())); // Debugging check
-
+console.log("Step 2 Data:", Array.from(formData.entries())); 
           jQuery.ajax({
             url: "process_step_2.php",
             type: "POST",
@@ -1594,12 +1590,9 @@ console.log("Step 2 Data:", Array.from(formData.entries())); // Debugging check
             contentType: false,
             success: function (response) {
               console.log(response);
-            },
-            error: function () {
-              alert("Error processing step.");
-            },
-          });
-          formData_upload = collectStep2Upload();
+              formData_upload = collectStep2Upload();
+              console.log(formData_upload);
+
           jQuery.ajax({
             url: "process_step_2_files.php",
             type: "POST",
@@ -1610,41 +1603,53 @@ console.log("Step 2 Data:", Array.from(formData.entries())); // Debugging check
               console.log(response);
             },
             error: function () {
+              //alert("Error processing file step.");
+            },
+          });
+            },
+            error: function () {
               alert("Error processing step.");
             },
           });
-        } else if (currentStep === 3) {
-          formData = collectStep3Data();
-          console.log("Step 3 Data:", formData);
-          currentStep = 4;
+          
+        } 
+        else if (currentStep === 3) { 
+    formData = collectStep3Data();
+    console.log("Step 3 Data:", formData);
+    currentStep = 4;
+    console.log(formData);
 
-          $.ajax({
-            url: "process_step_3.php",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              console.log(response);
-            },
-            error: function () {
-              alert("Error processing step.");
-            },
-          });
-          formData_upload = collectStep3Upload();
-          jQuery.ajax({
-            url: "process_step_3_files.php",
-            type: "POST",
-            data: formData_upload,
-            processData: false,
-            contentType: false,
-            success: function (response) {
-              console.log(response);
-            },
-            error: function () {
-              alert("Error processing step.");
-            },
-          });
+    $.ajax({
+        url: "process_step_3.php",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            console.log(response);
+            formData_upload = collectStep3Upload(); 
+                console.log(formData_upload);
+
+            jQuery.ajax({
+                url: "process_step_3_files.php",
+                type: "POST",
+                data: formData_upload,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response);
+                },
+                error: function () {
+                    //alert("Error processing file step.");
+                },
+            });
+        },
+        error: function () {
+            alert("Error processing step.");
+        },
+    });
+
+
         } else if (currentStep === 4) {
           formData = collectStep4Data();
           console.log("Step 4 Data:", formData);
@@ -1659,7 +1664,7 @@ console.log("Step 2 Data:", Array.from(formData.entries())); // Debugging check
               console.log(response);
             },
             error: function () {
-              alert("Error processing step.");
+              alert("Error processing file step.");
             },
           });
 
