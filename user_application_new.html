@@ -10,11 +10,13 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
+    
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="./district.js"></script>
   </head>
   <style>
     label[for]::after {
@@ -244,21 +246,28 @@
                 />
                 <br />
 
-                <label for="file-upload">Applicant Photo: </label>
-                <input
-                  type="file"
-                  id="photo-file-upload"
-                  name="photo-file-upload"
-                  class="form-control form-step-1"
-                  required
-                />
-                <br />
+                 <!-- Applicant Photo Upload -->
+                 <!--
+<div>
+    <label for="photo-file-upload">Applicant Photo:</label>
+    <input
+      type="file"
+      id="photo-file-upload"
+      name="photo-file-upload"
+      class="form-control form-step-1"
+      accept="image/*"
+      required
+    />
+    <small>Please upload an image file up to 200 KB.</small>
+  </div>
+  <br />
 
                 <label for="states">Choose a state:</label>
                 <select
                   id="states"
                   name="states"
                   class="form-control form-step-1"
+                  onclick=showDistricts()
                   required
                 >
                   <option value="" disabled selected>Select</option>
@@ -291,6 +300,11 @@
                   <option value="uttarakhand">Uttarakhand</option>
                   <option value="west-bengal">West Bengal</option>
                 </select>
+                <br>
+                <label for="districts">Choose a district:</label>
+                 <select id="districts" name="districts" class="form-control form-step-1" required>
+                     <option value="" disabled selected>Select District</option>
+                 </select>
                 <br />
                 <label for="gender">Choose your gender:</label>
                 <select
@@ -305,26 +319,71 @@
                   <option value="others">Others</option>
                 </select>
                 <br />
-                <!--<label for="telephone">Telephone:</label>
-                <input
-                  type="number"
-                  id="telephone"
-                  name="telephone"
-                  placeholder="Enter your telephone number"
-                  class="form-control form-step-1"
-                  required
-                />
-                <br />
-                <label for="email">Enter your email:</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  class="form-control form-step-1"
-                  required
-                />
-                <br />
+<div>
+    <label for="primaryNumber">Primary Number (Main):</label>
+    <input
+      type="tel"
+      id="primaryNumber"
+      name="primaryNumber"
+      placeholder="Enter your primary contact number"
+      class="form-control form-step-1"
+      pattern="[0-9]{10}"
+      required
+    />
+    <small>Enter a 10-digit number.</small>
+  </div>
+  <br />
+  
+  <div>
+    <label for="alternateNumber">Alternate Number:</label>
+    <input
+      type="tel"
+      id="alternateNumber"
+      name="alternateNumber"
+      placeholder="Enter your alternate contact number"
+      class="form-control form-step-1"
+      pattern="[0-9]{10}"
+    />
+    <small>Enter a 10-digit number.</small>
+  </div>
+  <br />
+<div>
+    <label for="applicantEmail">Applicant's Email ID:</label>
+    <input
+      type="email"
+      id="applicantEmail"
+      name="applicantEmail"
+      placeholder="Enter applicant's email"
+      class="form-control form-step-1"
+      required
+    />
+  </div>
+  <br />
+  
+  <div>
+    <label for="companyEmail">Company's Email ID:</label>
+    <input
+      type="email"
+      id="companyEmail"
+      name="companyEmail"
+      placeholder="Enter company's email"
+      class="form-control form-step-1"
+      required
+    />
+  </div>
+  <br />
+  
+  <div>
+    <label for="alternateEmail">Alternate Email ID:</label>
+    <input
+      type="email"
+      id="alternateEmail"
+      name="alternateEmail"
+      placeholder="Enter alternate email"
+      class="form-control form-step-1"
+    />
+  </div>
+  <br />
                 <label for="faddress">Full address of the applicant: </label>
                 <input
                   type="text"
@@ -393,48 +452,45 @@
                     required
                   />
                 </div>
-                <br />-->
-                <div>
-                  <label for="gstTanAvailable"
-                    >GST / TAN Number available (YES/NO):</label
-                  >
-                  <select
-                    id="gstTanAvailable"
-                    name="gstTanAvailable"
-                    class="form-control form-step-1"
-                    required
-                  >
-                    <option value="disabled" disabled selected>
-                      Select an option
-                    </option>
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
-                  </select>
-                </div>
                 <br />
                 <div>
-                  <label for="gstTanNumber">GST/ TAN Number:</label>
-                  <input
-                    type="number"
-                    id="gstTanNumber"
-                    name="gstTanNumber"
-                    placeholder="Enter your GST TAN number"
-                    class="form-control form-step-1"
-                    required
-                  />
-                </div>
-                <br />
-                <div>
-                  <label for="uploadGstTan">GST/ TAN document upload:</label>
-                  <input
-                    type="file"
-                    id="uploadGstTan"
-                    name="uploadGstTan"
-                    class="form-control form-step-1"
-                    required
-                  />
-                </div>
-                <br />
+                    <label for="gstTanAvailable">GST / TAN Number available (YES/NO):</label>
+                    <select
+                      id="gstTanAvailable"
+                      name="gstTanAvailable"
+                      class="form-control form-step-1"
+                      required
+                      onchange="toggleGstTanFields()"
+                    >
+                      <option value="disabled" disabled selected>Select an option</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                  
+                  <div id="gstTanNumberField" style="display: none;">
+                    <br>
+                    <label for="gstTanNumber">GST/ TAN Number:</label>
+                    <input
+                      type="number"
+                      id="gstTanNumber"
+                      name="gstTanNumber"
+                      placeholder="Enter your GST/TAN number"
+                      class="form-control form-step-1"
+                    />
+                  </div>
+                  
+                  <div id="uploadGstTanField" style="display: none;">
+                    <br>
+                    <label for="uploadGstTan">GST/ TAN document upload:</label>
+                    <input
+                      type="file"
+                      id="uploadGstTan"
+                      name="uploadGstTan"
+                      class="form-control form-step-1"
+                    />
+                  </div>
+                  <br />
                 <div>
                   <label for="bankAccountNo">Bank Account No.:</label>
                   <input
@@ -447,7 +503,7 @@
                   />
                 </div>
                 <br />
-                <!--<div>
+                <div>
                   <label for="bankNameBranch"
                     >Name and Branch of the Bank:</label
                   >
@@ -473,26 +529,35 @@
                     required
                   />
                 </div>
-                <br />
+                <br />-->
                 <div>
-                  <label for="typeApplicant">Type of Applicant:</label>
-                  <select
-                    id="typeApplicant"
-                    name="typeApplicant"
-                    class="form-control form-step-1"
-                    required
-                  >
-                    <option value="disabled" disabled selected>
-                      Select an option
-                    </option>
-                    <option value="individual">Individual applicant</option>
-                    <option value="entrepreneur">
-                      Individual Entrepreneur
-                    </option>
-                    <option value="privateFirm">Private firm</option>
-                    <option value="group">Group (or) Society</option>
-                  </select>
-                </div>
+                    <label for="typeApplicant">Type of Applicant:</label>
+                    <select
+                      id="typeApplicant"
+                      name="typeApplicant"
+                      class="form-control form-step-1"
+                      required
+                      onchange="toggleIncomeOrTurnover()"
+                    >
+                      <option value="disabled" disabled selected>Select an option</option>
+                      <option value="individual">Individual applicant</option>
+                      <option value="entrepreneur">Individual Entrepreneur</option>
+                      <option value="privateFirm">Private firm</option>
+                      <option value="group">Group (or) Society</option>
+                    </select>
+                  </div>
+                  <!-- Annual Income Field -->
+                  <div id="annualIncomeField" style="display: none;">
+                    <br>
+                    <label for="annualIncome">Annual Income:</label>
+                    <input type="number" id="annualIncome" name="annualIncome" class="form-control" placeholder="Enter annual income" />
+                  </div>
+                  <!-- Annual Turnover Field -->
+                  <div id="annualTurnoverField" style="display: none;">
+                    <br>
+                    <label for="annualTurnover">Annual Turnover:</label>
+                    <input type="number" id="annualTurnover" name="annualTurnover" class="form-control" placeholder="Enter annual turnover" />
+                  </div>
                 <br />
                 <div>
                   <label for="categoryApplied">Category applied:</label>
@@ -501,13 +566,10 @@
                     name="categoryApplied"
                     class="form-control form-step-1"
                     required
+                    onchange="toggleCommunityCertificateUpload()"
                   >
-                    <option value="disabled" disabled selected>
-                      Select an option
-                    </option>
-                    <option value="generalIndividual">
-                      General (Individual)
-                    </option>
+                    <option value="disabled" disabled selected>Select an option</option>
+                    <option value="generalIndividual">General (Individual)</option>
                     <option value="scIndividual">SC (Individual)</option>
                     <option value="stIndividual">ST (Individual)</option>
                     <option value="womenIndividual">Women (Individual)</option>
@@ -516,8 +578,15 @@
                     <option value="stGroup">ST (Group)</option>
                     <option value="womenGroup">Women (Group)</option>
                   </select>
-                </div>
-                <br />
+                      </div>            
+                      <!-- Community Certificate Upload Field -->
+      <div id="communityCertificateUpload" style="display: none;">
+          <br>
+          <label for="communityCertificate">Upload Community Certificate:</label>
+          <input type="file" id="communityCertificate" name="communityCertificate" class="form-control" />
+      </div>
+      
+              <br />
                 <div>
                   <label for="applicantType">Applicant Type:</label>
                   <select
@@ -636,7 +705,7 @@
                   <option value="4-5Years">4-5 Years</option>
                   <option value="6-10Years">6-10 Years</option>
                   <option value="moreThan10Years">More than 10 Years</option>
-                </select>-->
+                </select>
                 <br /><br />
 
                 <button
@@ -892,7 +961,7 @@
                     required
                   />
                 </div>
-                <!-- <br>
+                <br>
                             <div>
                                 <label for="bankConsentDetails">Details of the Bank Consent:</label>
                                 <input type="text" id="bankConsentDetails" name="bankConsentDetails"
@@ -904,8 +973,8 @@
                                 <input type="text" id="bankName" name="bankName" placeholder="Enter Bank Name"
                                     class="form-control form-step-2" required>
                             </div>
-                            <br> -->
-                <!-- 
+                            <br>
+                
                             <div>
                                 <label for="bankBranch">Branch:</label>
                                 <input type="text" id="bankBranch" name="bankBranch" placeholder="Enter Bank Branch"
@@ -930,7 +999,7 @@
                                 <label for="declaration">Declaration for not availing similar assistance:</label>
                                 <input type="file" id="declaration" name="declaration" class="form-control form-step-2" required>
                             </div> 
-                            <br>  -->
+                            <br> 
                 <button
                   type="button"
                   class="previous action-button-previous btn btn-secondary"
@@ -1001,7 +1070,7 @@
                 </div>
                 <br />
 
-                <!-- <div>
+                <div>
                                 <label for="objectives">Objectives:</label>
                                 <input type="file" id="objectives" name="objectives" class="form-control form-step-3"  required>
                             </div>
@@ -1039,9 +1108,9 @@
                                 <input type="text" id="bankLoan" name="bankLoan" placeholder="Enter Bank Loan"
                                     class="form-control form-step-3" required>
                             </div>
-                            <br> -->
+                            <br>
 
-                <!-- <div>
+                <div>
                                 <label for="implementationDuration">Project implementation duration (No. of months/years):</label>
                                 <input type="file" id="implementationDuration" name="implementationDuration" class="form-control form-step-3"  required>
                             </div>
@@ -1083,7 +1152,7 @@
                                 <input type="text" id="fishproduction" name="fishproduction"
                                     placeholder="Enter Fish seed and Fish Production,etc."
                                     class="form-control form-step-3" required>
-                            </div>-->
+                            </div>
                 <br />
                 <button
                   type="button"
@@ -1298,7 +1367,32 @@
     </div>
 
     <!--JS Functions-->
-    <script>
+     <script type="module">
+       import { statesAndDistricts } from './district.js';
+     window.showDistricts = function() {
+      console.log("ee");
+             const stateSelect = document.getElementById('states');
+             const districtSelect = document.getElementById('districts');
+             const selectedState = stateSelect.value;
+            
+             // Clear previous options
+             districtSelect.innerHTML = '<option value="" disabled selected>Select District</option>';
+
+             // Check if the selected state exists in the data
+             if (selectedState && statesAndDistricts[selectedState]) {
+                 const districts = statesAndDistricts[selectedState];
+                
+                 // Populate the districts dropdown
+                 districts.forEach(district => {
+                 const option = document.createElement('option');
+                 option.value = district.toLowerCase().replace(/\s+/g, '-'); // Convert to lowercase and replace spaces with hyphens
+                 option.textContent = district;
+                 districtSelect.appendChild(option);
+                 });
+             }
+       }
+       </script>
+       <script>
       // Next & Prev Buttons
       document.addEventListener("DOMContentLoaded", function () {
         const form = document.getElementById("application-form");
@@ -1506,34 +1600,47 @@
           .catch((err) => console.error("Error converting file:", err));
         alert("Application submitted successfully!");
       };
-
       //FILE Size check
       $('input[type="file"]').on("change", function () {
-        const allowedTypes = [
-          "application/pdf",
-          "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        ]; 
-        const file = this.files[0];
-
-        if (file) {
-          const size = (file.size / 1024 / 1024).toFixed(2); 
-          const type = file.type;
-          
-          if (size > 10 || size == 0) {
-            alert("File must be between the size of 0 - 10 MB");
-            this.value = ""; 
-            return; 
-          }
-
-          if (!allowedTypes.includes(type)) {
-            alert("Invalid file type. Please upload a PDF or DOCX file.");
-            this.value = ""; 
-            return; 
-          }
-
-          //alert("This file size is: " + size + " MB and type is: " + type);
-        }
-      });
+  const allowedTypes = ["application/pdf"];
+  const photoFileId = "photo-file-upload";
+  const file = this.files[0];
+ 
+  if (file) {
+    const sizeInMB = (file.size / 1024 / 1024).toFixed(2); 
+    const sizeInKB = (file.size / 1024).toFixed(2);
+    const type = file.type;
+    console.log("einstein1")
+    // Check if the input is the Applicant Photo and enforce 200 KB limit
+    if (this.id === photoFileId) {
+      if (sizeInKB > 200 || sizeInKB == 0) {
+        alert("Applicant Photo must be 200 KB or smaller.");
+        this.value = "";
+        console.log("einstein2")
+        return;
+      }
+      if (!type.startsWith("image/")) {
+        alert("Invalid file type. Please upload an image file.");
+        this.value = "";
+        console.log("einstein3")
+        return;
+      }
+    }
+    // For other files, enforce 10 MB limit and PDF type
+    else {
+      if (sizeInMB > 10 || sizeInMB == 0) {
+        alert("File must be between 0 - 10 MB.");
+        this.value = "";
+        return;
+      }
+      if (!allowedTypes.includes(type)) {
+        alert("Invalid file type. Please upload a PDF file.");
+        this.value = "";
+        return;
+      }
+    }
+  }
+});
 
       //Form Data Save in DB
       let currentStep = 1;
@@ -1680,7 +1787,7 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
       function collectStep1Data() {
         const formData = new FormData();
         formData.append("applicantId", localStorage.getItem('ApplicantId'));
-
+/*
         const getValueOrDefault = (element) => {
           return element ? element.value.trim() : "";
         };
@@ -1773,7 +1880,7 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
         for (let [key, value] of formData.entries()) {
           console.log(key, value);
         }
-
+*/
         return formData;
       }
 
@@ -1797,6 +1904,9 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
           }
         });
         console.log(formData);
+           for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+    }
         return formData;
       }
 
@@ -2013,6 +2123,50 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
 
         return formData;
       }
+      function toggleCommunityCertificateUpload() {
+    const category = document.getElementById("categoryApplied").value;
+    const uploadField = document.getElementById("communityCertificateUpload");
+    
+    // Show the upload field only if "SC (Group)" or "ST (Group)" is selected
+    if (category === "scGroup" || category === "stGroup" || category==="scIndividual" || category==="stIndividual") {
+      uploadField.style.display = "block";
+    } else {
+      uploadField.style.display = "none";
+    }
+  }
+  function toggleIncomeOrTurnover() {
+    const typeApplicant = document.getElementById("typeApplicant").value;
+    const incomeField = document.getElementById("annualIncomeField");
+    const turnoverField = document.getElementById("annualTurnoverField");
+
+    // Show income field for individual or entrepreneur
+    if (typeApplicant === "individual" || typeApplicant === "entrepreneur") {
+      incomeField.style.display = "block";
+      turnoverField.style.display = "none";
+    }
+    // Show turnover field for private firm or group
+    else if (typeApplicant === "privateFirm" || typeApplicant === "group") {
+      incomeField.style.display = "none";
+      turnoverField.style.display = "block";
+    } else {
+      incomeField.style.display = "none";
+      turnoverField.style.display = "none";
+    }
+  }
+  function toggleGstTanFields() {
+    const gstTanAvailable = document.getElementById("gstTanAvailable").value;
+    const gstTanNumberField = document.getElementById("gstTanNumberField");
+    const uploadGstTanField = document.getElementById("uploadGstTanField");
+
+    // Show fields only if "Yes" is selected
+    if (gstTanAvailable === "yes") {
+      gstTanNumberField.style.display = "block";
+      uploadGstTanField.style.display = "block";
+    } else {
+      gstTanNumberField.style.display = "none";
+      uploadGstTanField.style.display = "none";
+    }
+  }
     </script>
   </body>
 </html>

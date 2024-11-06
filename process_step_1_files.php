@@ -1,3 +1,7 @@
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json");
@@ -27,7 +31,8 @@ try {
             'uploadAadhar' => null,
             'uploadPan' => null,
             'uploadGstTan' => null,
-            'addressProof' => null 
+            'addressProof' => null, 
+            'categoryApplied' => null
         ];
 
         foreach ($files as $key => &$value) {
@@ -43,6 +48,8 @@ try {
         $stmt->bindParam(':aadhaar_card', $files['uploadAadhar'], PDO::PARAM_LOB);
         $stmt->bindParam(':pan_card', $files['uploadPan'], PDO::PARAM_LOB);
         $stmt->bindParam(':gst_tan_document', $files['uploadGstTan'], PDO::PARAM_LOB);
+      
+
 
         if ($stmt->execute()) {
             echo json_encode(["message" => "Files uploaded successfully."]);
@@ -74,6 +81,12 @@ foreach ($files as $key => &$value) {
         } else {
             $value = null; 
         }
+         echo "File Key: $key\n";
+        echo "File Name: $fileName\n";
+        echo "File Size: $fileSize bytes\n";
+        echo "File Type: $fileType\n";
+        echo "File Path: $filePath\n";
+
     } else {
         $value = null;
     }
