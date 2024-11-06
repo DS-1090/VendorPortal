@@ -28,7 +28,10 @@ try {
         $bank_consent_document = null;
         $signature = null;
 
-        $uploadDir = 'uploads/step-2/';
+        $applicantId = $_POST['applicantId'] ?? 'uploads';     
+error_log("Applicant ID: " . $applicantId);
+$uploadDir = $applicantId.'/step-2/';
+
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -45,7 +48,7 @@ try {
                 $fileName = basename($_FILES[$fileInputId]['name']);
                 $text=$fileInputId.'-'. date("m-Y"); 
 
-                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . $text. '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '_'.$text. '.' . pathinfo($fileName, PATHINFO_EXTENSION);
                 $fileContent = file_get_contents($_FILES[$fileInputId]['tmp_name']);
 
                 if (move_uploaded_file($_FILES[$fileInputId]['tmp_name'], $filePath)) {

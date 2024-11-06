@@ -229,7 +229,9 @@ applicationsTableBody.addEventListener('keydown', function (event) {
         } 
         else if (target.classList.contains('show-files-button')) {
             const applicationNo = target.getAttribute('data-application-no');
-            
+            const id= localStorage.getItem('ApplicantID');
+                            window.open('http://localhost:8082/dept_of_fisheries/'+id, '_blank');
+
 
         }
       

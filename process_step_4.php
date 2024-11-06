@@ -84,7 +84,9 @@ try {
             'groupResolution' => null,
         ];
 
-        $uploadDir = 'uploads/step-4/';
+$applicantId = $_POST['applicantId'] ?? 'uploads';     
+error_log("Applicant ID: " . $applicantId);
+$uploadDir = $applicantId.'/step-4/';
 
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);

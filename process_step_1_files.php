@@ -14,7 +14,7 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $applicant_id = $_POST['applicant_id'] ?? null;
+        $applicant_id = null;
 
         $sql = "INSERT INTO uploads_1 (applicant_id, applicant_photo, address_proof, aadhaar_card, pan_card, gst_tan_document) 
                 VALUES (:applicant_id, :applicant_photo, :address_proof, :aadhaar_card, :pan_card, :gst_tan_document)";
@@ -50,7 +50,10 @@ try {
             echo json_encode(["message" => "Failed to upload files."]);
         }
 
-         $uploadDir = 'uploads/step-1/';
+
+$applicantId = $_POST['applicantId'] ?? 'uploads';     
+error_log("Applicant ID: " . $applicantId);
+$uploadDir = $applicantId.'/step-1/';
 
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0755, true);

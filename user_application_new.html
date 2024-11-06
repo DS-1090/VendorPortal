@@ -24,7 +24,7 @@
       font-weight: bold;
     }
   </style>
-
+  
   <body>
     <!--Top Header-->
     <div class="container-fluid py-3" style="background-color: #0a266c">
@@ -1310,10 +1310,12 @@
             step.classList.toggle("d-none", index !== stepIndex);
           });
         }
+      let applicantId = 0;
 
         function nextStep() {
           if (currentStep < steps.length - 1) {
             currentStep++;
+
             showStep(currentStep);
             updateNextButtonState();
           }
@@ -1358,6 +1360,7 @@
             if (!validateStep()) {
               event.preventDefault();
             } else {
+              applicantId= generateApplicantId();
               SaveData();
               nextStep();
             }
@@ -1398,8 +1401,11 @@
       document.getElementById("application-form").onsubmit = async function (
         event
       ) {
+        
         event.preventDefault();
         SaveData();
+                startno++;
+
         const formData = new FormData(this);
         const entries = formData.entries();
         const data = {};
@@ -1531,15 +1537,14 @@
 
       //Form Data Save in DB
       let currentStep = 1;
-      let applicantId = generateApplicantId();
+      var startno = 1;
+
       function generateApplicantId() {
-        return [...Array(16)]
-          .map(() =>
-            Math.floor(Math.random() * 256)
-              .toString(16)
-              .padStart(2, "0")
-          )
-          .join("");
+        const d = new Date();
+        let padding = String(startno).padStart(5, '0');
+        var id = 'EM' + (d.getMonth() + 1) + d.getFullYear() + padding;
+        localStorage.setItem('ApplicantID', id);
+        return id;
       }
       function SaveData() {
         jQuery.noConflict();
@@ -1674,7 +1679,7 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
 
       function collectStep1Data() {
         const formData = new FormData();
-        // formData.append("applicant_id", applicantId);
+        formData.append("applicantId", localStorage.getItem('ApplicantId'));
 
         const getValueOrDefault = (element) => {
           return element ? element.value.trim() : "";
@@ -1774,6 +1779,7 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
 
       function collectStep1files() {
         const formData = new FormData();
+        formData.append("applicantId", localStorage.getItem('ApplicantID'));
 
         // Function to get the value or default
         const getValueOrDefault = (element) => {
@@ -1880,6 +1886,7 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
 
       function collectStep2Upload() {
         const formData = new FormData();
+        formData.append("applicantId", localStorage.getItem('ApplicantID'));
 
         const getValueOrDefault = (element) => {
           return element ? element.value.trim() : "";
@@ -1909,6 +1916,8 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
 
       function collectStep3Upload() {
         const formData = new FormData();
+                formData.append("applicantId", localStorage.getItem('ApplicantID'));
+
         const getValueOrDefault = (element) => {
           return element ? element.value.trim() : "";
         };
@@ -1988,6 +1997,8 @@ console.log("Step 2 Data:", Array.from(formData.entries()));
 
       function collectStep4Data() {
         const formData = new FormData();
+                formData.append("applicantId", localStorage.getItem('ApplicantID'));
+
         const fileInputs = document.querySelectorAll(
           '.card.step-4 input[type="file"]'
         );
