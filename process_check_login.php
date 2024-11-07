@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Check for password match
             if (strcmp($result['password'], $_POST['Password_Login']) === 0) {
                 $_SESSION['email'] = $email;
-                header("Location: user_application_new.html");
+                header("Location: user_application_new_instructions.html");
                 exit();
             } else {
                 echo "Invalid password.";

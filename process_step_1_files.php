@@ -18,13 +18,11 @@ try {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $applicant_id = null;
+        $applicant_id = $_POST['applicantId'] ?? null;
 
-        $sql = "INSERT INTO uploads_1 (applicant_id, applicant_photo, address_proof, aadhaar_card, pan_card, gst_tan_document) 
-                VALUES (:applicant_id, :applicant_photo, :address_proof, :aadhaar_card, :pan_card, :gst_tan_document)";
+        $sql = "INSERT INTO uploads_1 (applicant_photo, address_proof, aadhaar_card, pan_card, gst_tan_document, community_certificate) 
+                VALUES (:applicant_photo, :address_proof, :aadhaar_card, :pan_card, :gst_tan_document, :community_certificate)";
         $stmt = $pdo->prepare($sql);
-
-        $stmt->bindParam(':applicant_id', $applicant_id, PDO::PARAM_INT);
 
         $files = [
             'photo-file-upload' => null,
@@ -32,7 +30,7 @@ try {
             'uploadPan' => null,
             'uploadGstTan' => null,
             'addressProof' => null, 
-            'categoryApplied' => null
+            'communityCertificate' => null
         ];
 
         foreach ($files as $key => &$value) {
@@ -48,8 +46,8 @@ try {
         $stmt->bindParam(':aadhaar_card', $files['uploadAadhar'], PDO::PARAM_LOB);
         $stmt->bindParam(':pan_card', $files['uploadPan'], PDO::PARAM_LOB);
         $stmt->bindParam(':gst_tan_document', $files['uploadGstTan'], PDO::PARAM_LOB);
-      
-
+        $stmt->bindParam(':community_certificate', $files['communityCertificate'], PDO::PARAM_LOB);
+        
 
         if ($stmt->execute()) {
             echo json_encode(["message" => "Files uploaded successfully."]);
@@ -57,40 +55,41 @@ try {
             echo json_encode(["message" => "Failed to upload files."]);
         }
 
-
-$applicantId = $_POST['applicantId'] ?? 'uploads';     
-error_log("Applicant ID: " . $applicantId);
-$uploadDir = $applicantId.'/step-1/';
-
-if (!is_dir($uploadDir)) {
-    mkdir($uploadDir, 0755, true);
-}
-
-$t = time();
-$text = date("m-Y", $t); 
-
-foreach ($files as $key => &$value) {
-    if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
-        $fileName = basename($_FILES[$key]['name']);
-        $text=$key.'-'.$text; 
-        $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '_' . $text . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
-        $fileContent = file_get_contents($_FILES[$key]['tmp_name']);
-
-        if (move_uploaded_file($_FILES[$key]['tmp_name'], $filePath)) {
-            $value = $fileContent; 
-        } else {
-            $value = null; 
+        // Directory Creation
+        $uploadDir = $applicant_id . '/step-1/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
         }
-         echo "File Key: $key\n";
-        echo "File Name: $fileName\n";
-        echo "File Size: $fileSize bytes\n";
-        echo "File Type: $fileType\n";
-        echo "File Path: $filePath\n";
 
-    } else {
-        $value = null;
-    }
-}
+        // File Saving Process
+        $t = time();
+        $text = date("m-Y", $t); 
+        $fileInfo = [];
+
+        foreach ($files as $key => &$value) {
+            if (isset($_FILES[$key]) && $_FILES[$key]['error'] === UPLOAD_ERR_OK) {
+                $fileName = basename($_FILES[$key]['name']);
+                $text = $key . '-' . $text; 
+                $filePath = $uploadDir . pathinfo($fileName, PATHINFO_FILENAME) . '_' . $text . '.' . pathinfo($fileName, PATHINFO_EXTENSION);
+
+                // Use move_uploaded_file instead of file_put_contents for moving the file from temp location
+                if (move_uploaded_file($_FILES[$key]['tmp_name'], $filePath)) {
+                    $fileInfo[] = [
+                        "key" => $key,
+                        "fileName" => $fileName,
+                        "fileSize" => $_FILES[$key]['size'],
+                        "fileType" => $_FILES[$key]['type'],
+                        "filePath" => $filePath
+                    ];
+                    error_log("File uploaded successfully: $filePath");
+                } else {
+                    error_log("File NOT uploaded successfully: $filePath");
+                }
+            }
+        }
+
+        // Send back file info to JavaScript
+        echo json_encode(["message" => "Files processed.", "fileInfo" => $fileInfo]);
 
     } else {
         echo json_encode(["message" => "Invalid request method."]);

@@ -146,8 +146,12 @@ try {
 // $sql= "DELETE FROM uploads_1;";
 // $db->exec($sql);
 
+// $sql = "ALTER TABLE uploads_1
+//     ADD COLUMN IF NOT EXISTS community_certificate BYTEA;";
+// $db->exec($sql);
+
 //    // Display table  data
-     $query = $db->query("SELECT * FROM registration ");
+     $query = $db->query("SELECT * FROM project_proposal_uploads ");
      echo "Data in the  table:<br>";
      while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
          foreach ($row as $column => $value) {
