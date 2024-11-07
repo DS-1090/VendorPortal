@@ -41,6 +41,7 @@ $uploadDir = $applicantId.'/step-2/';
             'leaseLandDocuments' => 'lease_land_documents',
             'bankConsentUpload' => 'bank_consent_document',
             'signature' => 'signature',
+            'declaration'=> 'declaration'
         ];
 
         foreach ($fileInputs as $fileInputId => $dbColumn) {

@@ -17,7 +17,7 @@ try {
     
     echo "Connected successfully to the database '$dbname'!";
 
-    //Fetch and display the table names
+    // //Fetch and display the table names
     $query = $db->query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'");
     echo "Tables in the database '$dbname':<br>";
     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
@@ -143,11 +143,15 @@ try {
 
 
 
-// $sql= "DELETE FROM Registration;";
+// $sql= "DELETE FROM uploads_1;";
+// $db->exec($sql);
+
+// $sql = "ALTER TABLE uploads_1
+//     ADD COLUMN IF NOT EXISTS community_certificate BYTEA;";
 // $db->exec($sql);
 
 //    // Display table  data
-     $query = $db->query("SELECT * FROM Registration ");
+     $query = $db->query("SELECT * FROM project_proposal_uploads ");
      echo "Data in the  table:<br>";
      while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
          foreach ($row as $column => $value) {
